@@ -1,7 +1,9 @@
-import { View, Text, FlatList, Image, TouchableOpacity,ImageBackground } from 'react-native'
+import { View, Text, FlatList, Image, TouchableOpacity,ImageBackground, Button } from 'react-native'
 import React, {useState} from 'react'
 import * as Animatable from 'react-native-animatable'
 import { icons } from '../constants'
+import { useVideoPlayer, VideoView, VideoSource } from 'expo-video'
+import { useEvent } from 'expo'
 
 
 const zoomIn = {
@@ -25,6 +27,15 @@ const zoomOut = {
 const TrendingItem = ({activeItem , item}) => {
   const [play, setPlay] = useState(false)
   
+  const videoSource = 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
+
+  const player = useVideoPlayer(videoSource, player => {
+    player.loop = false
+    player.pause()
+  })
+
+  const {isPlaying} = useEvent(player ,"playingChange", { isPlaying : player.playing })
+
   return (
     <Animatable.View
       className="mr-5"
@@ -32,10 +43,32 @@ const TrendingItem = ({activeItem , item}) => {
       duration={500}
     >
       {play ? (
-        <Video 
-          source={{uri : item.Video}}
-          className="w-52 h-72 rounded-[35] mt-3 bg-white/10"
-        />
+        <View className="w-52 h-72 rounded-[35] mt-3 overflow-hidden">
+          <View className="flex-1 relative">
+            <VideoView 
+              player={player}
+              style={{
+                width: '100%',
+                height: '100%',
+              }}
+              contentFit='cover'
+              allowsFullscreen 
+              allowsPictureInPicture
+            />
+            <View className="absolute bottom-0 w-full p-2 bg-black/30">
+              <Button
+                title={isPlaying ? 'Pause' : 'Play'}
+                onPress={() => {
+                  if (isPlaying) {
+                    player.pause();
+                  } else {
+                    player.play();
+                  }
+                }}
+              />
+            </View>
+          </View>
+        </View>
       ) : (
         <TouchableOpacity 
           className="justify-center relative items-center"
