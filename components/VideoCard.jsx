@@ -1,9 +1,15 @@
 import { View, Text, Image, TouchableOpacity} from 'react-native'
 import React ,{useState} from 'react'
 import { icons } from '../constants'
+import { useVideoPlayer, VideoView } from 'expo-video'
 
 const VideoCard = ({ video: { title, thumbnail, video, creator: { username, avatar}} }) => {
     const [play, setPlay] = useState(false)
+    const videoSource = {uri: "https://previews.customer.envatousercontent.com/h264-video-previews/f2a1edca-97ff-4402-9c8b-542481db27d1/3114780.mp4"} 
+    const player = useVideoPlayer( videoSource, player => {
+        player.loop = false
+        player.pause()
+    })
     return (
     <View className="flex-col items-center px-4 mb-14">
         <View className="flex-row gap-3 items-start">
@@ -29,7 +35,20 @@ const VideoCard = ({ video: { title, thumbnail, video, creator: { username, avat
         </View>
         </View>
         {play ? (
-            <Text className="text-white">Playing</Text>
+            <View className="w-full h-60 rounded-xl mt-3 overflow-hidden">
+                <View className="flex-1 relative ">
+                    <VideoView 
+                        player={player}
+                        style={{
+                        width: "100%",
+                        height: "100%",
+                        }}
+                        contentFit='contain'
+                        allowsFullscreen 
+                        allowsPictureInPicture
+                    />
+                </View>
+            </View>
         ): (
             <TouchableOpacity
                 className="w-full h-60 rounded-xl mt-3 relative justify-center items-center"

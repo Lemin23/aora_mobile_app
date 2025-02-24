@@ -16,11 +16,11 @@ const GlobalProvider = ({ children }) => {
                 if(res){
                     setIsLoggedIn(true)
                     setUser(res)
-                    console.log("user found")
+                    // console.log("user found")
                 } else {
                     setIsLoggedIn(false)
                     setUser(null)
-                    console.log("not found")
+                    // console.log("not found")
                 }
             })
             .catch((error) => {

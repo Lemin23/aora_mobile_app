@@ -2,7 +2,7 @@ import { View, Text, FlatList, Image, TouchableOpacity,ImageBackground, Button }
 import React, {useState} from 'react'
 import * as Animatable from 'react-native-animatable'
 import { icons } from '../constants'
-import { useVideoPlayer, VideoView, VideoSource } from 'expo-video'
+import { useVideoPlayer, VideoView} from 'expo-video'
 import { useEvent } from 'expo'
 
 
@@ -24,17 +24,16 @@ const zoomOut = {
   }
 }
 
+
 const TrendingItem = ({activeItem , item}) => {
   const [play, setPlay] = useState(false)
-  
-  const videoSource = 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
+  const videoSource = {uri : "https://previews.customer.envatousercontent.com/h264-video-previews/f2a1edca-97ff-4402-9c8b-542481db27d1/3114780.mp4"}
 
-  const player = useVideoPlayer(videoSource, player => {
+  const player = useVideoPlayer( videoSource, player => {
     player.loop = false
     player.pause()
   })
 
-  const {isPlaying} = useEvent(player ,"playingChange", { isPlaying : player.playing })
 
   return (
     <Animatable.View
@@ -55,18 +54,6 @@ const TrendingItem = ({activeItem , item}) => {
               allowsFullscreen 
               allowsPictureInPicture
             />
-            <View className="absolute bottom-0 w-full p-2 bg-black/30">
-              <Button
-                title={isPlaying ? 'Pause' : 'Play'}
-                onPress={() => {
-                  if (isPlaying) {
-                    player.pause();
-                  } else {
-                    player.play();
-                  }
-                }}
-              />
-            </View>
           </View>
         </View>
       ) : (
