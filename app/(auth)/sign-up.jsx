@@ -27,7 +27,7 @@ const signUp = () => {
         setIsSubmiting(true)
         try {
             const respons = await createUser(form.email, form.username, form.password);
-            setUser = respons
+            setUser(respons)
             setIsLoggedIn(true)
             router.replace('/home')
         } catch (error) {

@@ -5,9 +5,10 @@ import { icons, images} from '../../constants'
 import EmplyList from '../../components/EmplyList'
 import useAppwrite from '../../lib/useAppwrite'
 import VideoCard from '../../components/VideoCard'
-import {getUserPosts} from '../../lib/appwrite'
+import {getUserPosts, signOut} from '../../lib/appwrite'
 import { useGlobalContext } from '../../context/globalProvider'
 import InfoBox from '../../components/InfoBox'
+import { router } from 'expo-router'
 
 
 
@@ -20,8 +21,11 @@ const Profile = () => {
     () => getUserPosts(user.$id)
   )  
 
-  const logout = () => {
-
+  const logout = async () => {
+    await signOut()
+    setUser(null)
+    setIsLoggedIn(false)
+    router.replace('/sign-in')
   }
 
   return (
