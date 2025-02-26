@@ -29,7 +29,7 @@ const TrendingItem = ({activeItem , item}) => {
   const [play, setPlay] = useState(false)
   const videoSource = {uri : "https://previews.customer.envatousercontent.com/h264-video-previews/f2a1edca-97ff-4402-9c8b-542481db27d1/3114780.mp4"}
 
-  const player = useVideoPlayer( videoSource, player => {
+  const player = useVideoPlayer( item.video, player => {
     player.loop = false
     player.pause()
   })

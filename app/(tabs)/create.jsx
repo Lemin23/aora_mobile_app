@@ -12,8 +12,7 @@ import { useGlobalContext } from '../../context/globalProvider'
 
 const create = () => {
   
-  const {user} = useGlobalContext
-
+  const {user} = useGlobalContext()
   const [form, setForm] = useState({
     title: '',
     video: null,
@@ -29,12 +28,13 @@ const create = () => {
   })
 
   const sumbit = async () => {
+    setUploading(true)
     if(!form.prompt || !form.thumbnail || !form.video || !form.title){
       return Alert.alert('Please fill all fields')
     }
     try {
       await createVideo(
-        {form, userId: user?.$id}
+        {form, userId: user.$id}
       )
 
       Alert.alert("Success", 'Post uploaded')
@@ -67,11 +67,8 @@ const create = () => {
         setForm({...form, video: result.assets[0]})
       }
     }
-    ///
   }
 
-  // Draw a river otter playing a ukulele
-  // Otter playing a ukulele
   return (
     <SafeAreaView className="bg-primary h-full">
       <ScrollView className='px-4 my-6'>
@@ -123,7 +120,6 @@ const create = () => {
                     source={{uri: form.thumbnail.uri}}
                     resizeMode='cover'
                     className='w-full h-60 rounded-2xl'
-
                   />
                 ): (
                   <View className='w-full bg-black-100 rounded-xl justify-center items-center flex-row'>
