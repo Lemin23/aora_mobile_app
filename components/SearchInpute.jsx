@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { icons } from '../constants';
 import { router, usePathname } from 'expo-router';
 
-const SearchInpute = ({initialQuery}) => {
+const SearchInpute = ({initialQuery, title}) => {
     const [query, setQuery] = useState( initialQuery ||  '');
     const [isFocused, setIsFocused] = useState(false);
     const pathname = usePathname()
@@ -15,7 +15,7 @@ const SearchInpute = ({initialQuery}) => {
             <TextInput
                 className='text-base mt-0.5 text-white flex-1 font-pregular'
                 value={query}
-                placeholder="Search for a video topic"        
+                placeholder={title}        
                 placeholderTextColor='#CDCDE0'
                 onFocus={() => setIsFocused(true)} // Set focus state to true
                 onBlur={() => setIsFocused(false)}  // Set focus state to false when blurred

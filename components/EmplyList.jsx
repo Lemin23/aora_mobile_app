@@ -6,7 +6,7 @@ import { router } from 'expo-router'
 
 import CustomButton from './CustomButton'
 
-const EmplyList = ({title, subtitle}) => {
+const EmplyList = ({title, subtitle, buttonNeeded=true}) => {
   return (
     <View className='justify-center items-center px-4'>
         <Image 
@@ -20,11 +20,14 @@ const EmplyList = ({title, subtitle}) => {
         <Text className="font-semibold text-2xl text-white">
             {title} 
         </Text>
-        <CustomButton
+        {(buttonNeeded && 
+          <CustomButton
           title = "Create a video"
           handlePress={() => (router.push('/create'))}
           containerStyles="w-full my-5"
         />
+        )}
+        
     </View>
   )
 }

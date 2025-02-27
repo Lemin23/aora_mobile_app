@@ -1,14 +1,30 @@
-import { View, Text, Image, TouchableOpacity} from 'react-native'
+import { View, Text, Image, TouchableOpacity, Alert} from 'react-native'
 import React ,{useState} from 'react'
 import { icons } from '../constants'
 import { useVideoPlayer, VideoView } from 'expo-video'
+import { saveVideo } from '../lib/appwrite'
+import { useGlobalContext } from '../context/globalProvider'
+import { reload } from 'expo-router/build/global-state/routing'
 
-const VideoCard = ({ video: { title, thumbnail, video, creator: { username, avatar}} }) => {
+const VideoCard = ({ video: {$id: videoId, title, thumbnail, video, creator: { username, avatar}} }) => {
     const [play, setPlay] = useState(false)
     const player = useVideoPlayer(video , player => {
         player.loop = false
         player.pause()
     })
+
+    const {user} = useGlobalContext()
+    
+    const save = async () => {
+        try {
+            Alert.alert("Saved", "vidoe saved")
+            await saveVideo({videoId, userId: user.$id})
+
+        } catch (error) {
+            throw new Error('error')
+        }
+    }
+
     return (
     <View className="flex-col items-center px-4 mb-14">
         <View className="flex-row gap-3 items-start">
@@ -26,11 +42,13 @@ const VideoCard = ({ video: { title, thumbnail, video, creator: { username, avat
             </View>
         </View>
         <View className="pt-2 ">
-            <Image
-                source={icons.menu}
-                className="w-5 h-5"
-                resizeMode='contain'
-            />
+            <TouchableOpacity onPress={save}>
+                <Image
+                    source={icons.menu}
+                    className="w-5 h-5"
+                    resizeMode='contain'
+                />
+            </TouchableOpacity>
         </View>
         </View>
         {play ? (

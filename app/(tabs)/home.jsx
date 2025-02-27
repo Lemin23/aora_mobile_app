@@ -47,7 +47,7 @@ const home = () => {
                 />
               </View>
             </View>
-            <SearchInpute/>
+            <SearchInpute title='Search for a video'/>
             <View className = "pt-4 pb-6 flex-1 w-full">
               <Text className="text-gray-100 text-lg font-pregular mb-3">
                 Tending Videos
